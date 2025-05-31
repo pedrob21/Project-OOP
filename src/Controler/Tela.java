@@ -6,6 +6,7 @@ import Modelo.Hero;
 import Modelo.Chaser;
 import Modelo.BichinhoVaiVemHorizontal;
 import Modelo.Parede;
+import Modelo.Moeda;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Modelo.BichinhoVaiVemVertical;
@@ -294,29 +295,77 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.addPersonagem(p);
         }
         
-        BichinhoVaiVemVertical bvv1 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        BichinhoVaiVemVertical bvv1 = new BichinhoVaiVemVertical("Robbo.png", 2, 2);
         bvv1.setPosicao(9, 7);
         this.addPersonagem(bvv1);
         
-        BichinhoVaiVemVertical bvv2 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        BichinhoVaiVemVertical bvv2 = new BichinhoVaiVemVertical("Robbo.png", 2, 2);
         bvv2.setPosicao(9, 9);
         this.addPersonagem(bvv2);
         
-        BichinhoVaiVemVertical bvv3 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        BichinhoVaiVemVertical bvv3 = new BichinhoVaiVemVertical("Robbo.png", 2, 2);
         bvv3.setPosicao(9, 11);
         this.addPersonagem(bvv3);
         
-        BichinhoVaiVemVertical bvv4 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        BichinhoVaiVemVertical bvv4 = new BichinhoVaiVemVertical("Robbo.png", 2, 2);
         bvv4.setPosicao(9, 13);
         this.addPersonagem(bvv4);
         
-        BichinhoVaiVemHorizontal bvh1 = new BichinhoVaiVemHorizontal("Robbo.png", 5);
+        BichinhoVaiVemHorizontal bvh1 = new BichinhoVaiVemHorizontal("Robbo.png", 4, 4);
         bvh1.setPosicao(10, 20);
         this.addPersonagem(bvh1);
         
-        BichinhoVaiVemHorizontal bvh2 = new BichinhoVaiVemHorizontal("Robbo.png", 3);
+        BichinhoVaiVemHorizontal bvh2 = new BichinhoVaiVemHorizontal("Robbo.png", 4, 4);
         bvh2.setPosicao(17, 20);
         this.addPersonagem(bvh2);
+        
+        BichinhoVaiVemVertical bvv5 = new BichinhoVaiVemVertical("Robbo.png", 1, 0);
+        bvv5.setPosicao(14, 9);
+        this.addPersonagem(bvv5);
+        
+        BichinhoVaiVemVertical bvv6 = new BichinhoVaiVemVertical("Robbo.png", 1, 0);
+        bvv6.setPosicao(14, 12);
+        this.addPersonagem(bvv6);
+        
+        BichinhoVaiVemVertical bvv7 = new BichinhoVaiVemVertical("Robbo.png", 1, 0);
+        bvv7.setPosicao(14, 6);
+        this.addPersonagem(bvv7);
+        
+        BichinhoVaiVemVertical bvv8 = new BichinhoVaiVemVertical("Robbo.png", 1, 0);
+        bvv8.setPosicao(14, 15);
+        this.addPersonagem(bvv8);
+        
+        BichinhoVaiVemHorizontal bvh3 = new BichinhoVaiVemHorizontal("Robbo.png", 7, 10);
+        bvh3.setPosicao(23, 10);
+        this.addPersonagem(bvh3);
+        
+        Moeda m1 = new Moeda("Caveira.png");
+        m1.setPosicao(7, 16);
+        this.addPersonagem(m1);
+        
+        Moeda m2 = new Moeda("Caveira.png");
+        m2.setPosicao(8, 16);
+        this.addPersonagem(m2);
+        
+        Moeda m3 = new Moeda("Caveira.png");
+        m3.setPosicao(10, 15);
+        this.addPersonagem(m3);
+        
+        Moeda m4 = new Moeda("Caveira.png");
+        m4.setPosicao(17, 15);
+        this.addPersonagem(m4);
+        
+        Moeda m5 = new Moeda("Caveira.png");
+        m5.setPosicao(20, 10);
+        this.addPersonagem(m5);
+        
+        Moeda m6 = new Moeda("Caveira.png");
+        m6.setPosicao(13, 17);
+        this.addPersonagem(m6);
+        
+        Moeda m7 = new Moeda("Caveira.png");
+        m7.setPosicao(14, 17);
+        this.addPersonagem(m7);
              
     }
     
@@ -346,42 +395,52 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         return g2;
     }
 
-    public void paint(Graphics gOld) {
-        Graphics g = this.getBufferStrategy().getDrawGraphics();
-        /*Criamos um contexto gráfico*/
-        g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
-        /**
-         * ***********Desenha cenário de fundo*************
-         */
-        for (int i = 0; i < Consts.RES; i++) {
-            for (int j = 0; j < Consts.RES; j++) {
-                int mapaLinha = cameraLinha + i;
-                int mapaColuna = cameraColuna + j;
+    @Override
+public void paint(Graphics gOld) {
+    Graphics g = this.getBufferStrategy().getDrawGraphics();
+    g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
 
-                if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
-                    try {
-                        Image newImage = Toolkit.getDefaultToolkit().getImage(
-                                new java.io.File(".").getCanonicalPath() + Consts.PATH + "blackTile.png");
-                        g2.drawImage(newImage,
-                                j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
-                                Consts.CELL_SIDE, Consts.CELL_SIDE, null);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+    // ***********Desenha cenário de fundo***********
+    for (int i = 0; i < Consts.RES; i++) {
+        for (int j = 0; j < Consts.RES; j++) {
+            int mapaLinha = cameraLinha + i;
+            int mapaColuna = cameraColuna + j;
+
+            if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
+                try {
+                    Image newImage = Toolkit.getDefaultToolkit().getImage(
+                            new java.io.File(".").getCanonicalPath() + Consts.PATH + "blackTile.png");
+                    g2.drawImage(newImage,
+                            j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
+                            Consts.CELL_SIDE, Consts.CELL_SIDE, null);
+                } catch (IOException ex) {
+                    Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-        if (!this.faseAtual.isEmpty()) {
-            this.cj.desenhaTudo(faseAtual);
-            this.cj.processaTudo(faseAtual);
-        }
+    }
 
-        g.dispose();
-        g2.dispose();
-        if (!getBufferStrategy().contentsLost()) {
-            getBufferStrategy().show();
+    // Desenha todos os personagens e processa lógica
+    if (!this.faseAtual.isEmpty()) {
+        this.cj.desenhaTudo(faseAtual);
+        this.cj.processaTudo(faseAtual);
+
+        // >>>> Desenha o número de vidas no rodapé da tela <<<<
+        if (faseAtual.get(0) instanceof Modelo.Hero hero) {
+            int y = Consts.RES * Consts.CELL_SIDE - 10;
+            g2.setColor(java.awt.Color.WHITE);
+            g2.fillRect(0, y - 20, getWidth(), 30); // faixa branca
+            g2.setColor(java.awt.Color.BLACK);
+            g2.drawString("Vidas: " + hero.getVidas(), 10, y);
         }
     }
+
+    g.dispose();
+    g2.dispose();
+    if (!getBufferStrategy().contentsLost()) {
+        getBufferStrategy().show();
+    }
+}
 
     private void atualizaCamera() {
         int linha = hero.getPosicao().getLinha();

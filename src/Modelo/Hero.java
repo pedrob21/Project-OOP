@@ -13,8 +13,35 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Hero extends Personagem implements Serializable{
+    private int vidas;
+    private boolean podeLevarDano = true;
     public Hero(String sNomeImagePNG) {
-        super(sNomeImagePNG);
+        super(sNomeImagePNG);this.bTransponivel = false;
+        this.bMortal = false;
+        this.vidas = 3; // número inicial de vidas
+    }
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void perderVida() {
+        if (vidas > 0) {
+            vidas--;
+            podeLevarDano = false;
+        }
+    }
+    
+    public void permitirDanoNovamente() {
+        this.podeLevarDano = true;
+    }
+
+    public boolean estaVivo() {
+        return vidas > 0;
+    }
+    
+    public boolean podeLevarDano() {
+    return this.podeLevarDano;
     }
 
     public void voltaAUltimaPosicao(){
