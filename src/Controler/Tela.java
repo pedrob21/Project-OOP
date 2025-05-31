@@ -434,7 +434,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -455,9 +455,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    }// </editor-fold>                        
+    // Variables declaration - do not modify                     
+    // End of variables declaration                   
 
     public void mouseMoved(MouseEvent e) {
     }
