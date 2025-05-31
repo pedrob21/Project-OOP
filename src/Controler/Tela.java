@@ -79,19 +79,248 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             this.addPersonagem(p);
         }
         
-        for (int x = 5; x <= 22; x++) {
+        for (int x = 5; x <= 9; x++) {
             Parede p = new Parede("bricks.png");
             p.setPosicao(x, 18);
             this.addPersonagem(p);
         }
         
-        for (int x = 3; x <= 25; x++) {
+        for (int x = 3; x <= 9; x++) {
             Parede p = new Parede("bricks.png");
             p.setPosicao(x, 21);
             this.addPersonagem(p);
         }
+        
+        // retangulo 1
+        for (int y = 21; y <= 25; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(9, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 15; y <= 17; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(9, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 15; y <= 18; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(11, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 21; y <= 25; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(11, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 9; x <= 11; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 14);
+            this.addPersonagem(p);
+        }
+        
+        // retangulo 2
+        
+        for (int x = 12; x <= 16; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 18);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 12; x <= 16; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 21);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 15; y <= 18; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(16, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 21; y <= 25; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(16, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 15; y <= 18; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(18, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 21; y <= 25; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(18, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 16; x <= 18; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 14);
+            this.addPersonagem(p);
+        }
+        
+        // fim r2
+        
+        for (int x = 19; x <= 24; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 21);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 19; x <= 22; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 18);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 11; y <= 17; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(22, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 5; y <= 9; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(22, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 19; x <= 21; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 9);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 19; x <= 21; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 11);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 9; y <= 11; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(19, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 15; x <= 21; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 5);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 6; y <= 17; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(15, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int y = 6; y <= 17; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(12, y);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 8; x <= 12; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 5);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 5; x <= 8; x++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(x, 17);
+            this.addPersonagem(p);
+        }
+        
+        for (int x = 3; x <= 8; x++) {
+            for (int y = 22; y <=24; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int x = 12; x <= 15; x++) {
+            for (int y = 22; y <=24; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int x = 19; x <= 24; x++) {
+            for (int y = 22; y <= 24; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int x = 16; x <= 21; x++) {
+            for (int y = 6; y <= 8; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int x = 19; x <= 21; x++) {
+            for (int y = 12; y <= 17; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int x = 16; x <= 18; x++) {
+            for (int y = 9; y <= 13; y++){
+                Parede p = new Parede("bricks.png");
+                p.setPosicao(x, y);
+                this.addPersonagem(p);
+            }
+        }
+        
+        for (int y = 3; y <= 16; y++) {
+            Parede p = new Parede("bricks.png");
+            p.setPosicao(6, y);
+            this.addPersonagem(p);
+        }
+        
+        BichinhoVaiVemVertical bvv1 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        bvv1.setPosicao(9, 7);
+        this.addPersonagem(bvv1);
+        
+        BichinhoVaiVemVertical bvv2 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        bvv2.setPosicao(9, 9);
+        this.addPersonagem(bvv2);
+        
+        BichinhoVaiVemVertical bvv3 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        bvv3.setPosicao(9, 11);
+        this.addPersonagem(bvv3);
+        
+        BichinhoVaiVemVertical bvv4 = new BichinhoVaiVemVertical("Robbo.png", 2);
+        bvv4.setPosicao(9, 13);
+        this.addPersonagem(bvv4);
+        
+        BichinhoVaiVemHorizontal bvh1 = new BichinhoVaiVemHorizontal("Robbo.png", 5);
+        bvh1.setPosicao(10, 20);
+        this.addPersonagem(bvh1);
+        
+        BichinhoVaiVemHorizontal bvh2 = new BichinhoVaiVemHorizontal("Robbo.png", 3);
+        bvh2.setPosicao(17, 20);
+        this.addPersonagem(bvh2);
              
     }
+    
+    
 
     public int getCameraLinha() {
         return cameraLinha;

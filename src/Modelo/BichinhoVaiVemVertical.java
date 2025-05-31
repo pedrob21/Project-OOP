@@ -4,20 +4,55 @@ package Modelo;
 import Auxiliar.Desenho;
 import java.util.Random;
 
-public class BichinhoVaiVemVertical extends Personagem{
-    boolean bUp;
-    public BichinhoVaiVemVertical(String sNomeImagePNG) {
+
+public class BichinhoVaiVemVertical extends Personagem {
+    private boolean bSubindo;
+    private int linhaMin;
+    private int linhaMax;
+    private int delay;
+    private int contador;
+    private boolean limitesDefinidos;
+    private int alcance;
+
+    public BichinhoVaiVemVertical(String sNomeImagePNG, int alcance) {
         super(sNomeImagePNG);
-        bUp = true;
+        this.bSubindo = true;
+        this.delay = 2;
+        this.contador = 0;
+        this.limitesDefinidos = false;
+        this.alcance = alcance;
     }
 
-    public void autoDesenho(){
-        if(bUp)
-            this.setPosicao(pPosicao.getLinha()-1, pPosicao.getColuna());
-        else
-            this.setPosicao(pPosicao.getLinha()+1, pPosicao.getColuna());           
+    @Override
+    public void autoDesenho() {
+        if (!limitesDefinidos) {
+            int linhaAtual = pPosicao.getLinha();
+            linhaMin = linhaAtual - alcance;
+            linhaMax = linhaAtual + alcance;
+            limitesDefinidos = true;
+        }
+
+        contador++;
+        if (contador >= delay) {
+            int linhaAtual = pPosicao.getLinha();
+            if (bSubindo) {
+                if (linhaAtual > linhaMin) {
+                    this.setPosicao(linhaAtual - 1, pPosicao.getColuna());
+                } else {
+                    bSubindo = false;
+                    this.setPosicao(linhaAtual + 1, pPosicao.getColuna());
+                }
+            } else {
+                if (linhaAtual < linhaMax) {
+                    this.setPosicao(linhaAtual + 1, pPosicao.getColuna());
+                } else {
+                    bSubindo = true;
+                    this.setPosicao(linhaAtual - 1, pPosicao.getColuna());
+                }
+            }
+            contador = 0;
+        }
 
         super.autoDesenho();
-        bUp = !bUp;
-    }  
+    }
 }

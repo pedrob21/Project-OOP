@@ -11,29 +11,54 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class BichinhoVaiVemHorizontal extends Personagem implements Serializable {
+public class BichinhoVaiVemHorizontal extends Personagem {
+    private boolean indoParaEsquerda;
+    private int colunaMin;
+    private int colunaMax;
+    private int delay;
+    private int contador;
+    private boolean limitesDefinidos;
+    private int alcance;
 
-    private boolean bRight;
-    int iContador;
-
-    public BichinhoVaiVemHorizontal(String sNomeImagePNG) {
+    public BichinhoVaiVemHorizontal(String sNomeImagePNG, int alcance) {
         super(sNomeImagePNG);
-        bRight = true;
-        iContador = 0;
+        this.indoParaEsquerda = true;
+        this.delay = 2;
+        this.contador = 0;
+        this.limitesDefinidos = false;
+        this.alcance = alcance;
     }
 
+    @Override
     public void autoDesenho() {
-        if (iContador == 5) {
-            iContador = 0;
-            if (bRight) {
-                this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
-            } else {
-                this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
-            }
-
-            bRight = !bRight;
+        if (!limitesDefinidos) {
+            int colunaAtual = pPosicao.getColuna();
+            colunaMin = colunaAtual - alcance;
+            colunaMax = colunaAtual + alcance;
+            limitesDefinidos = true;
         }
+
+        contador++;
+        if (contador >= delay) {
+            int colunaAtual = pPosicao.getColuna();
+            if (indoParaEsquerda) {
+                if (colunaAtual > colunaMin) {
+                    this.setPosicao(pPosicao.getLinha(), colunaAtual - 1);
+                } else {
+                    indoParaEsquerda = false;
+                    this.setPosicao(pPosicao.getLinha(), colunaAtual + 1);
+                }
+            } else {
+                if (colunaAtual < colunaMax) {
+                    this.setPosicao(pPosicao.getLinha(), colunaAtual + 1);
+                } else {
+                    indoParaEsquerda = true;
+                    this.setPosicao(pPosicao.getLinha(), colunaAtual - 1);
+                }
+            }
+            contador = 0;
+        }
+
         super.autoDesenho();
-        iContador++;
     }
 }
