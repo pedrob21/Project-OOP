@@ -24,7 +24,6 @@ public class ControleDeJogo {
         Graphics g = Desenho.acessoATelaDoJogo().getGraphics();
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 16));
-        // Só 1 linha de drawString com as duas informações
         g.drawString("Vidas: " + hero.getVidas() + " | Pontuação: " + hero.getPontuacao(), 10, 20);
     }
 }
@@ -57,13 +56,13 @@ public class ControleDeJogo {
                 if (pIesimoPersonagem.isbMortal()) {
                     if (hero.podeLevarDano()) {
                         hero.perderVida();
-                        System.out.println("Herói perdeu uma vida! Vidas: " + hero.getVidas() +
+                        System.out.println("Heroi perdeu uma vida! Vidas: " + hero.getVidas() +
                                            " | Pontuação: " + hero.getPontuacao());
 
                         // Se acabou as vidas, remove o herói
                         if (!hero.estaVivo()) {
                             umaFase.remove(0);
-                            System.out.println("Herói morreu definitivamente.");
+                            System.out.println("Herói morreu.");
                         }
                     } else {
                         // Reativa a possibilidade de levar dano

@@ -432,7 +432,7 @@ public void paint(Graphics gOld) {
             g2.setColor(java.awt.Color.WHITE);
             g2.fillRect(0, y - 20, getWidth(), 30); // faixa branca
             g2.setColor(java.awt.Color.BLACK);
-            g2.drawString("Vidas: " + hero.getVidas(), 10, y);
+            g2.drawString("Vidas: " + hero.getVidas() + " | Pontuacao: " + hero.getPontuacao(), 10, y);
         }
     }
 
