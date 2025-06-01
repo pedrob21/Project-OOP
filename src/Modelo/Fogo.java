@@ -4,6 +4,8 @@ import Auxiliar.Desenho;
 import Controler.Tela;
 import java.awt.Graphics;
 import java.io.Serializable;
+import Auxiliar.LeitorMapa;
+
 
 public class Fogo extends Personagem implements Serializable{
             

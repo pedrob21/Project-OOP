@@ -1,37 +1,43 @@
 package Modelo;
 
-import Auxiliar.Consts;
 import Auxiliar.Desenho;
-import Controler.ControleDeJogo;
 import Controler.Tela;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.io.IOException;
-import java.io.Serializable;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import auxiliar.Posicao;
 
-public class Hero extends Personagem implements Serializable{
+import java.io.Serializable;
+
+public class Hero extends Personagem implements Serializable {
     private int vidas;
     private boolean podeLevarDano = true;
+    private int pontuacao;
+
     public Hero(String sNomeImagePNG) {
-        super(sNomeImagePNG);this.bTransponivel = false;
+        super(sNomeImagePNG);
+        this.bTransponivel = false;
         this.bMortal = false;
-        this.vidas = 3; // número inicial de vidas
+        this.vidas = 3;
+        this.pontuacao = 0;
     }
 
     public int getVidas() {
         return vidas;
     }
 
+     public int getPontuacao() {
+        return pontuacao;
+    }
+
+    public void addPontuacao() {
+        pontuacao++;
+    }
+    
     public void perderVida() {
         if (vidas > 0) {
             vidas--;
             podeLevarDano = false;
         }
     }
-    
+
     public void permitirDanoNovamente() {
         this.podeLevarDano = true;
     }
@@ -39,57 +45,55 @@ public class Hero extends Personagem implements Serializable{
     public boolean estaVivo() {
         return vidas > 0;
     }
-    
+
     public boolean podeLevarDano() {
-    return this.podeLevarDano;
+        return this.podeLevarDano;
     }
 
-    public void voltaAUltimaPosicao(){
-        this.pPosicao.volta();
-    }
-    
-    
-    public boolean setPosicao(int linha, int coluna){
-        if(this.pPosicao.setPosicao(linha, coluna)){
-            if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
-                this.voltaAUltimaPosicao();
-            }
-            return true;
-        }
-        return false;       
+    public void voltaAUltimaPosicao() {
+        pPosicao.volta(); // já cuida internamente da posição anterior
     }
 
-    /*TO-DO: este metodo pode ser interessante a todos os personagens que se movem*/
-    private boolean validaPosicao(){
-        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
-            this.voltaAUltimaPosicao();
+    @Override
+    public boolean setPosicao(int linha, int coluna) {
+        Posicao nova = new Posicao(linha, coluna);
+        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(nova)) {
             return false;
         }
-        return true;       
+        return super.setPosicao(linha, coluna);
     }
-    
+
+    private boolean tentaMover(Runnable movimento) {
+        int linhaAntes = pPosicao.getLinha();
+        int colunaAntes = pPosicao.getColuna();
+
+        movimento.run();
+
+        Posicao nova = new Posicao(pPosicao.getLinha(), pPosicao.getColuna());
+        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(nova)) {
+            pPosicao.setPosicao(linhaAntes, colunaAntes);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean moveUp() {
-        if(super.moveUp())
-            return validaPosicao();
-        return false;
+        return tentaMover(() -> super.moveUp());
     }
 
+    @Override
     public boolean moveDown() {
-        if(super.moveDown())
-            return validaPosicao();
-        return false;
+        return tentaMover(() -> super.moveDown());
     }
 
+    @Override
     public boolean moveRight() {
-        if(super.moveRight())
-            return validaPosicao();
-        return false;
+        return tentaMover(() -> super.moveRight());
     }
 
+    @Override
     public boolean moveLeft() {
-        if(super.moveLeft())
-            return validaPosicao();
-        return false;
-    }    
-    
+        return tentaMover(() -> super.moveLeft());
+    }
 }

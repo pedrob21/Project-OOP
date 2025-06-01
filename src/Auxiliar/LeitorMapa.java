@@ -1,4 +1,4 @@
-package auxiliar;
+package Auxiliar;
 
 import Modelo.*;
 import java.io.*;

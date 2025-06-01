@@ -3,6 +3,8 @@ package Modelo;
 
 import Auxiliar.Desenho;
 import java.util.Random;
+import Auxiliar.LeitorMapa;
+
 
 
 public class BichinhoVaiVemVertical extends Personagem {
