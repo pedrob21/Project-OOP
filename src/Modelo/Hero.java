@@ -26,6 +26,10 @@ public class Hero extends Personagem implements Serializable {
      public int getPontuacao() {
         return pontuacao;
     }
+     
+     public void setPontuacao(int valor){
+         this.pontuacao = valor;
+     }
 
     public void addPontuacao() {
         pontuacao++;
