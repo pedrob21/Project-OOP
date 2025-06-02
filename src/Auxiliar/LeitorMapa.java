@@ -96,6 +96,10 @@ public class LeitorMapa {
                             caixa.setPosicao(linha, coluna);
                             personagens.add(caixa);
                             break;
+                        case 12:
+                            ZigueZague zz = new ZigueZague("blue.png");
+                            zz.setPosicao(linha, coluna);
+                            personagens.add(zz);
 
                         default:
                             // 0 ou desconhecido → ignora

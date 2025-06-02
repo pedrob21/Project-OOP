@@ -2,26 +2,36 @@ package Modelo;
 
 import Auxiliar.Desenho;
 import java.util.Random;
+import auxiliar.Posicao;
+import Controler.ControleDeJogo;
 
-public class ZigueZague extends Personagem{
-    
+public class ZigueZague extends Personagem {
+
     public ZigueZague(String sNomeImagePNG) {
         super(sNomeImagePNG);
     }
 
-    public void autoDesenho(){
+    @Override
+    public void autoDesenho() {
         Random rand = new Random();
         int iDirecao = rand.nextInt(4);
-        
-        if(iDirecao == 1)
-            this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna()+1);
-        else if(iDirecao == 2)
-            this.setPosicao(pPosicao.getLinha()+1, pPosicao.getColuna());
-        else if(iDirecao == 3)
-            this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna()-1);
-        else if(iDirecao == 4)
-            this.setPosicao(pPosicao.getLinha()-1, pPosicao.getColuna());
-        
+
+        int novaLinha = pPosicao.getLinha();
+        int novaColuna = pPosicao.getColuna();
+
+        switch (iDirecao) {
+            case 0 -> novaLinha--; // cima
+            case 1 -> novaColuna++; // direita
+            case 2 -> novaLinha++; // baixo
+            case 3 -> novaColuna--; // esquerda
+        }
+
+        Posicao novaPos = new Posicao(novaLinha, novaColuna);
+
+         if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPos)) {
+            this.setPosicao(novaLinha, novaColuna);
+        }
+
         super.autoDesenho();
-    }    
+    }
 }

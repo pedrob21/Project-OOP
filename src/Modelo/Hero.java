@@ -75,6 +75,10 @@ public class Hero extends Personagem implements Serializable {
     public void setProntoParaTrocarFase(boolean pronto) {
         this.prontoParaTrocarFase = pronto;
     }
+    
+    public void setVidas(int valor){
+        this.vidas = valor;
+    }
 
     @Override
     public boolean setPosicao(int linha, int coluna) {

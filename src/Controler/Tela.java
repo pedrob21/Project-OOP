@@ -268,4 +268,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
         return null;
     }
+    
+    public void resetarParaFase1() {
+        ControleDeJogo.resetarVidas();
+        faseAtualNumero = 1;
+        faseAtual = LeitorMapa.carregarMapa("src/maps/fase1.txt");
+
+        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero novoHero) {
+            hero = novoHero;
+            hero.setProntoParaTrocarFase(false);
+            this.atualizaCamera();
+            System.out.println("Jogo reiniciado a partir da fase 1.");
+        } else {
+            System.err.println("Erro ao reiniciar a fase 1.");
+            System.exit(1);
+        }
+    }
 }
