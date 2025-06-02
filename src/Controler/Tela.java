@@ -43,7 +43,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
     private int faseAtualNumero = 1;
-    private boolean trocarFase = false;
     private Graphics g2;
     private int cameraLinha = 0;
     private int cameraColuna = 0;
@@ -68,12 +67,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         this.atualizaCamera();
     }
-    
+
     public ArrayList<Personagem> getFaseAtual() {
         return faseAtual;
     }
-
-
 
     public int getCameraLinha() {
         return cameraLinha;
@@ -104,7 +101,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Graphics g = this.getBufferStrategy().getDrawGraphics();
         g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
 
-        // Desenha cenário de fundo
         for (int i = 0; i < Consts.RES; i++) {
             for (int j = 0; j < Consts.RES; j++) {
                 int mapaLinha = cameraLinha + i;
@@ -124,7 +120,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             }
         }
 
-        // Desenha personagens
         if (!this.faseAtual.isEmpty()) {
             this.cj.desenhaTudo(faseAtual);
 
@@ -137,7 +132,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             }
         }
 
-        // ✅ Desenha o mapa textual
         desenharMapa(g2);
 
         g.dispose();
@@ -145,7 +139,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         if (!getBufferStrategy().contentsLost()) {
             getBufferStrategy().show();
         }
-        
+
         this.cj.processaTudo(faseAtual);
 
         if (hero.isProntoParaTrocarFase()) {
@@ -160,7 +154,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         g.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
 
         int startX = 10;
-        int startY = Consts.RES * Consts.CELL_SIDE + 15; // abaixo do mapa gráfico
+        int startY = Consts.RES * Consts.CELL_SIDE + 15;
 
         for (int i = 0; i < Consts.MUNDO_ALTURA; i++) {
             StringBuilder linha = new StringBuilder();
@@ -247,7 +241,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void mouseDragged(MouseEvent e) {}
     public void keyTyped(KeyEvent e) {}
     public void keyReleased(KeyEvent e) {}
-    
+
     private void carregarProximaFase() {
         faseAtualNumero++;
         String caminho = "src/maps/fase" + faseAtualNumero + ".txt";
@@ -266,4 +260,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
     }
 
+    public Personagem getPersonagemNaPosicao(Posicao p) {
+        for (Personagem personagem : this.getFaseAtual()) {
+            if (personagem.getPosicao().igual(p)) {
+                return personagem;
+            }
+        }
+        return null;
+    }
 }

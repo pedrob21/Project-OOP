@@ -91,6 +91,11 @@ public class LeitorMapa {
                             cav.setPosicao(linha, coluna);
                             personagens.add(cav);
                             break;
+                        case 11: // Caixa empurrável
+                            CaixaEmpurravel caixa = new CaixaEmpurravel("Caveira.png"); // ou o nome da imagem que você deseja
+                            caixa.setPosicao(linha, coluna);
+                            personagens.add(caixa);
+                            break;
 
                         default:
                             // 0 ou desconhecido → ignora

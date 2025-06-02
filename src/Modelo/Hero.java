@@ -11,6 +11,7 @@ public class Hero extends Personagem implements Serializable {
     private boolean podeLevarDano = true;
     private int pontuacao;
     private boolean prontoParaTrocarFase = false;
+    private boolean possuiChave = false;
 
     public Hero(String sNomeImagePNG) {
         super(sNomeImagePNG);
@@ -19,8 +20,6 @@ public class Hero extends Personagem implements Serializable {
         this.vidas = 3;
         this.pontuacao = 0;
     }
-    
-    private boolean possuiChave = false;
 
     public void coletarChave() {
         this.possuiChave = true;
@@ -30,23 +29,22 @@ public class Hero extends Personagem implements Serializable {
         return this.possuiChave;
     }
 
-
     public int getVidas() {
         return vidas;
     }
 
-     public int getPontuacao() {
+    public int getPontuacao() {
         return pontuacao;
     }
-     
-     public void setPontuacao(int valor){
-         this.pontuacao = valor;
-     }
+
+    public void setPontuacao(int valor) {
+        this.pontuacao = valor;
+    }
 
     public void addPontuacao() {
         pontuacao++;
     }
-    
+
     public void perderVida() {
         if (vidas > 0) {
             vidas--;
@@ -69,9 +67,9 @@ public class Hero extends Personagem implements Serializable {
     public void voltaAUltimaPosicao() {
         pPosicao.volta(); // já cuida internamente da posição anterior
     }
-    
+
     public boolean isProntoParaTrocarFase() {
-    return prontoParaTrocarFase;
+        return prontoParaTrocarFase;
     }
 
     public void setProntoParaTrocarFase(boolean pronto) {
@@ -95,8 +93,6 @@ public class Hero extends Personagem implements Serializable {
         return super.setPosicao(linha, coluna);
     }
 
-
-
     private boolean tentaMover(Runnable movimento) {
         int linhaAntes = pPosicao.getLinha();
         int colunaAntes = pPosicao.getColuna();
@@ -104,7 +100,9 @@ public class Hero extends Personagem implements Serializable {
         movimento.run();
 
         Posicao nova = new Posicao(pPosicao.getLinha(), pPosicao.getColuna());
-        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(nova)) {
+        Tela tela = Desenho.acessoATelaDoJogo();
+
+        if (tela != null && !tela.ehPosicaoValida(nova)) {
             pPosicao.setPosicao(linhaAntes, colunaAntes);
             return false;
         }
@@ -112,24 +110,43 @@ public class Hero extends Personagem implements Serializable {
     }
 
     @Override
-    public boolean moveUp() {
-        return tentaMover(() -> super.moveUp());
-    }
+public boolean moveUp() {
+    return tentaMoverComEmpurrao(-1, 0);
+}
 
-    @Override
-    public boolean moveDown() {
-        return tentaMover(() -> super.moveDown());
-    }
+@Override
+public boolean moveDown() {
+    return tentaMoverComEmpurrao(1, 0);
+}
 
-    @Override
-    public boolean moveRight() {
-        return tentaMover(() -> super.moveRight());
-    }
+@Override
+public boolean moveLeft() {
+    return tentaMoverComEmpurrao(0, -1);
+}
 
-    @Override
-    public boolean moveLeft() {
-        return tentaMover(() -> super.moveLeft());
-    }
-    
+@Override
+public boolean moveRight() {
+    return tentaMoverComEmpurrao(0, 1);
+}
 
+    private boolean tentaMoverComEmpurrao(int deltaLinha, int deltaColuna) {
+        int novaLinha = pPosicao.getLinha() + deltaLinha;
+        int novaColuna = pPosicao.getColuna() + deltaColuna;
+        Posicao nova = new Posicao(novaLinha, novaColuna);
+
+        Tela tela = Desenho.acessoATelaDoJogo();
+
+        if (tela != null) {
+            Personagem obstaculo = tela.getPersonagemNaPosicao(nova); // <--- Correção aqui
+            if (obstaculo instanceof CaixaEmpurravel caixa) {
+                if (!caixa.empurrar(deltaLinha, deltaColuna)) {
+                    return false; // não conseguiu empurrar
+                }
+            } else if (!tela.ehPosicaoValida(nova)) {
+                return false;
+            }
+        }
+
+        return this.setPosicao(novaLinha, novaColuna);
+    }
 }
