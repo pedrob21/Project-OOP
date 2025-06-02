@@ -1,5 +1,6 @@
 package Auxiliar;
 
+import Modelo.Chave;
 import Modelo.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -14,8 +15,10 @@ public class LeitorMapa {
             int linha = 0;
 
             while (scanner.hasNextLine()) {
-                String[] valores = scanner.nextLine().split(" ");
+                String linhaAtual = scanner.nextLine().trim();
+                if (linhaAtual.isEmpty()) continue; // ← pula linhas vazias
 
+                String[] valores = linhaAtual.split(" ");
                 for (int coluna = 0; coluna < valores.length; coluna++) {
                     String[] partes = valores[coluna].split("-");
                     int tipo = Integer.parseInt(partes[0]);
@@ -55,6 +58,11 @@ public class LeitorMapa {
                             BichinhoVaiVemVertical bvv = new BichinhoVaiVemVertical("Robbo.png", alcanceC, alcanceB);
                             bvv.setPosicao(linha, coluna);
                             personagens.add(bvv);
+                            break;
+                        case 6:
+                            Chave chave = new Chave("chave.png");
+                            chave.setPosicao(linha, coluna);
+                            personagens.add(chave);
                             break;
 
                         default:
