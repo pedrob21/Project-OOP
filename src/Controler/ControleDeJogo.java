@@ -54,6 +54,7 @@ public void processaTudo(ArrayList<Personagem> umaFase) {
                 hero.coletarChave();
                 umaFase.remove(i--);
                 System.out.println("Herói coletou a chave!");
+                hero.setProntoParaTrocarFase(true);
                 continue;
             }
 
@@ -80,7 +81,7 @@ public void processaTudo(ArrayList<Personagem> umaFase) {
     for (int i = 1; i < umaFase.size(); i++) {
         Personagem p = umaFase.get(i);
         if (p instanceof Chaser) {
-            ((Chaser) p).computeDirection(hero.getPosicao());
+            ((Chaser) p).mover(umaFase, this, hero.getPosicao());
         }
     }
 }

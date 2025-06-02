@@ -10,6 +10,7 @@ public class Hero extends Personagem implements Serializable {
     private int vidas;
     private boolean podeLevarDano = true;
     private int pontuacao;
+    private boolean prontoParaTrocarFase = false;
 
     public Hero(String sNomeImagePNG) {
         super(sNomeImagePNG);
@@ -67,6 +68,14 @@ public class Hero extends Personagem implements Serializable {
 
     public void voltaAUltimaPosicao() {
         pPosicao.volta(); // já cuida internamente da posição anterior
+    }
+    
+    public boolean isProntoParaTrocarFase() {
+    return prontoParaTrocarFase;
+    }
+
+    public void setProntoParaTrocarFase(boolean pronto) {
+        this.prontoParaTrocarFase = pronto;
     }
 
     @Override

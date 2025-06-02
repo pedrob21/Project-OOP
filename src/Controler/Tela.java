@@ -42,6 +42,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private Hero hero;
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
+    private int faseAtualNumero = 1;
+    private boolean trocarFase = false;
     private Graphics g2;
     private int cameraLinha = 0;
     private int cameraColuna = 0;
@@ -125,7 +127,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         // Desenha personagens
         if (!this.faseAtual.isEmpty()) {
             this.cj.desenhaTudo(faseAtual);
-            this.cj.processaTudo(faseAtual);
 
             if (faseAtual.get(0) instanceof Hero hero) {
                 int y = Consts.RES * Consts.CELL_SIDE - 10;
@@ -143,6 +144,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         g2.dispose();
         if (!getBufferStrategy().contentsLost()) {
             getBufferStrategy().show();
+        }
+        
+        this.cj.processaTudo(faseAtual);
+
+        if (hero.isProntoParaTrocarFase()) {
+            carregarProximaFase();
         }
     }
 
@@ -240,4 +247,23 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void mouseDragged(MouseEvent e) {}
     public void keyTyped(KeyEvent e) {}
     public void keyReleased(KeyEvent e) {}
+    
+    private void carregarProximaFase() {
+        faseAtualNumero++;
+        String caminho = "src/maps/fase" + faseAtualNumero + ".txt";
+
+        ArrayList<Personagem> novaFase = LeitorMapa.carregarMapa(caminho);
+
+        if (!novaFase.isEmpty() && novaFase.get(0) instanceof Hero novoHero) {
+            faseAtual = novaFase;
+            hero = novoHero;
+            hero.setProntoParaTrocarFase(false);
+            this.atualizaCamera();
+            System.out.println("Fase " + faseAtualNumero + " carregada.");
+        } else {
+            System.out.println("Fim do jogo ou fase inválida.");
+            System.exit(0);
+        }
+    }
+
 }

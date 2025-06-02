@@ -60,7 +60,7 @@ public class LeitorMapa {
                             personagens.add(bvv);
                             break;
                         case 6:
-                            Chave chave = new Chave("chave.png");
+                            Chave chave = new Chave("fire.png");
                             chave.setPosicao(linha, coluna);
                             personagens.add(chave);
                             break;
@@ -80,6 +80,10 @@ public class LeitorMapa {
                             bvhc.setPosicao(linha, coluna);
                             personagens.add(bvhc);
                             break;
+                        case 9:
+                            Chaser chaser = new Chaser("Chaser.png");
+                            chaser.setPosicao(linha, coluna);
+                            personagens.add(chaser);
 
                         default:
                             // 0 ou desconhecido → ignora
