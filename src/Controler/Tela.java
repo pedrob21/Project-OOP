@@ -55,12 +55,23 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                 Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-        faseAtual = new ArrayList<>();
-        hero = new Hero("Robbo.png");
-        hero.setPosicao(3, 3);
-        this.addPersonagem(hero);
+        faseAtual = LeitorMapa.carregarMapa("src/maps/fase1.txt");
+
+        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero) {
+            hero = (Hero) faseAtual.get(0);
+        } else {
+            System.err.println("Erro: mapa não possui um herói na posição 0!");
+            System.exit(1);
+        }
+
         this.atualizaCamera();
     }
+    
+    public ArrayList<Personagem> getFaseAtual() {
+        return faseAtual;
+    }
+
+
 
     public int getCameraLinha() {
         return cameraLinha;

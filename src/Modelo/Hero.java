@@ -61,11 +61,18 @@ public class Hero extends Personagem implements Serializable {
     @Override
     public boolean setPosicao(int linha, int coluna) {
         Posicao nova = new Posicao(linha, coluna);
-        if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(nova)) {
-            return false;
+
+        Tela tela = Desenho.acessoATelaDoJogo();
+
+        // Valida apenas se a tela e a fase estiverem prontas
+        if (tela != null && tela.getFaseAtual() != null && tela.ehPosicaoValida(nova)) {
+            return super.setPosicao(linha, coluna);
         }
+
+        // Caso contrário, ignora a validação (fase ainda não pronta)
         return super.setPosicao(linha, coluna);
     }
+
 
     private boolean tentaMover(Runnable movimento) {
         int linhaAntes = pPosicao.getLinha();
