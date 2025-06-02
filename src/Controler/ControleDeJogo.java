@@ -29,58 +29,62 @@ public class ControleDeJogo {
 }
 
 
-    public void processaTudo(ArrayList<Personagem> umaFase) {
-        // Verifica se o herói ainda está na fase
-        if (umaFase.isEmpty() || !(umaFase.get(0) instanceof Hero)) {
-            return;
-        }
+public void processaTudo(ArrayList<Personagem> umaFase) {
+    if (umaFase == null || umaFase.isEmpty() || !(umaFase.get(0) instanceof Hero)) {
+        return;
+    }
 
-        Hero hero = (Hero) umaFase.get(0);
-        Personagem pIesimoPersonagem;
+    Hero hero = (Hero) umaFase.get(0);
 
-        for (int i = 1; i < umaFase.size(); i++) {
-            pIesimoPersonagem = umaFase.get(i);
+    for (int i = 1; i < umaFase.size(); i++) {
+        Personagem p = umaFase.get(i);
 
-            // Verifica colisão com o herói
-            if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
+        // Verifica colisão com o herói
+        if (hero.getPosicao().igual(p.getPosicao())) {
 
-                // Se for moeda, incrementa pontuação e remove
-                if (pIesimoPersonagem instanceof Moeda) {
-                    hero.addPontuacao();
-                    umaFase.remove(i);
-                    i--;
-                    continue;
-                }
-
-                // Se for inimigo mortal, o herói perde uma vida
-                if (pIesimoPersonagem.isbMortal()) {
-                    if (hero.podeLevarDano()) {
-                        hero.perderVida();
-                        System.out.println("Heroi perdeu uma vida! Vidas: " + hero.getVidas() +
-                                           " | Pontuação: " + hero.getPontuacao());
-
-                        // Se acabou as vidas, remove o herói
-                        if (!hero.estaVivo()) {
-                            umaFase.remove(0);
-                            System.out.println("Herói morreu.");
-                        }
-                    } else {
-                        // Reativa a possibilidade de levar dano
-                        hero.permitirDanoNovamente();
-                    }
-                    break;
-                }
+            // Coleta moeda
+            if (p instanceof Moeda) {
+                hero.addPontuacao();
+                umaFase.remove(i--);
+                continue;
             }
-        }
 
-        // Movimento dos Chasers
-        for (int i = 1; i < umaFase.size(); i++) {
-            pIesimoPersonagem = umaFase.get(i);
-            if (pIesimoPersonagem instanceof Chaser) {
-                ((Chaser) pIesimoPersonagem).computeDirection(hero.getPosicao());
+            // Coleta chave
+            if (p instanceof Chave) {
+                hero.coletarChave();
+                umaFase.remove(i--);
+                System.out.println("Herói coletou a chave!");
+                continue;
+            }
+
+            // Dano de inimigos mortais
+            if (p.isbMortal()) {
+                if (hero.podeLevarDano()) {
+                    hero.perderVida();
+                    System.out.println("Herói perdeu uma vida! Vidas: " + hero.getVidas()
+                                     + " | Pontuação: " + hero.getPontuacao());
+
+                    if (!hero.estaVivo()) {
+                        umaFase.remove(0); // Remove o herói da fase
+                        System.out.println("Herói morreu.");
+                    }
+                } else {
+                    hero.permitirDanoNovamente();
+                }
+                break;
             }
         }
     }
+
+    // Movimento dos Chasers
+    for (int i = 1; i < umaFase.size(); i++) {
+        Personagem p = umaFase.get(i);
+        if (p instanceof Chaser) {
+            ((Chaser) p).computeDirection(hero.getPosicao());
+        }
+    }
+}
+
 
     /* Retorna true se a posição p é válida para o herói com relação aos personagens */
     public boolean ehPosicaoValida(ArrayList<Personagem> umaFase, Posicao p) {
@@ -94,4 +98,5 @@ public class ControleDeJogo {
         }
         return true;
     }
+
 }

@@ -18,6 +18,17 @@ public class Hero extends Personagem implements Serializable {
         this.vidas = 3;
         this.pontuacao = 0;
     }
+    
+    private boolean possuiChave = false;
+
+    public void coletarChave() {
+        this.possuiChave = true;
+    }
+
+    public boolean temChave() {
+        return this.possuiChave;
+    }
+
 
     public int getVidas() {
         return vidas;
@@ -64,14 +75,17 @@ public class Hero extends Personagem implements Serializable {
 
         Tela tela = Desenho.acessoATelaDoJogo();
 
-        // Valida apenas se a tela e a fase estiverem prontas
-        if (tela != null && tela.getFaseAtual() != null && tela.ehPosicaoValida(nova)) {
-            return super.setPosicao(linha, coluna);
+        // Só valida se a tela e a fase estiverem prontas
+        if (tela != null && tela.getFaseAtual() != null) {
+            if (!tela.ehPosicaoValida(nova)) {
+                return false;
+            }
         }
 
-        // Caso contrário, ignora a validação (fase ainda não pronta)
+        // Se não está pronto para validar, só define a posição mesmo
         return super.setPosicao(linha, coluna);
     }
+
 
 
     private boolean tentaMover(Runnable movimento) {
@@ -107,4 +121,6 @@ public class Hero extends Personagem implements Serializable {
     public boolean moveLeft() {
         return tentaMover(() -> super.moveLeft());
     }
+    
+
 }
