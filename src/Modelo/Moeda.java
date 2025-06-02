@@ -1,7 +1,8 @@
 package Modelo;
+import java.io.Serializable;
 
 
-public class Moeda extends Personagem {
+public class Moeda extends Personagem implements Serializable{
 
     public Moeda(String sNomeImagePNG) {
         super(sNomeImagePNG);

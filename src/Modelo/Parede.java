@@ -1,6 +1,7 @@
 package Modelo;
 
 import Auxiliar.Desenho;
+import java.io.Serializable;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,7 +12,7 @@ import Auxiliar.Desenho;
  *
  * @author pbern
  */
-public class Parede extends Personagem {
+public class Parede extends Personagem implements Serializable {
     public Parede(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.bMortal = false;

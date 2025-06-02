@@ -4,10 +4,11 @@ package Modelo;
 import Auxiliar.Desenho;
 import java.util.Random;
 import Auxiliar.LeitorMapa;
+import java.io.Serializable;
 
 
 
-public class BichinhoVaiVemVertical extends Personagem {
+public class BichinhoVaiVemVertical extends Personagem implements Serializable{
     private boolean subindo;
     private int linhaMin;
     private int linhaMax;

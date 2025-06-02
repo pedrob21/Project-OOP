@@ -11,10 +11,38 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 
 public class ControleDeJogo {
 
     private static int vidasPersistentes = -1; // -1 indica que ainda não foi inicializado
+
+    public void salvarFase(ArrayList<Personagem> faseAtual) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("fase_salva.dat"))) {
+            out.writeObject(faseAtual);
+            System.out.println("Fase salva com sucesso.");
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar fase: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Personagem> carregarFase() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("fase_salva.dat"))) {
+            Object obj = in.readObject();
+            if (obj instanceof ArrayList<?> fase) {
+                System.out.println("Fase carregada com sucesso.");
+                return (ArrayList<Personagem>) fase;
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Erro ao carregar fase: " + e.getMessage());
+        }
+        return null;
+    }
 
     public void desenhaTudo(ArrayList<Personagem> e) {
         for (int i = 0; i < e.size(); i++) {
@@ -74,7 +102,7 @@ public class ControleDeJogo {
                             System.out.println("Herói morreu. Reiniciando o jogo...");
                             vidasPersistentes = -1; // Reinicia as vidas globais
                             Tela tela = Desenho.acessoATelaDoJogo();
-                            tela.resetarParaFase1(); // Método que deve existir na Tela
+                            tela.resetarParaFase1();
                             return;
                         }
                     } else {
@@ -94,7 +122,6 @@ public class ControleDeJogo {
         }
     }
 
-    /* Retorna true se a posição p é válida para o herói com relação aos personagens */
     public boolean ehPosicaoValida(ArrayList<Personagem> umaFase, Posicao p) {
         for (int i = 1; i < umaFase.size(); i++) {
             Personagem pIesimoPersonagem = umaFase.get(i);

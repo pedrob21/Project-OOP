@@ -21,12 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -184,21 +179,33 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_C) {
-            this.faseAtual.clear();
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            hero.moveUp();
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            hero.moveDown();
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            hero.moveLeft();
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            hero.moveRight();
+    int key = e.getKeyCode();
+
+    if (key == KeyEvent.VK_C) {
+        this.faseAtual.clear();
+    } else if (key == KeyEvent.VK_UP) {
+        hero.moveUp();
+    } else if (key == KeyEvent.VK_DOWN) {
+        hero.moveDown();
+    } else if (key == KeyEvent.VK_LEFT) {
+        hero.moveLeft();
+    } else if (key == KeyEvent.VK_RIGHT) {
+        hero.moveRight();
+    } else if (key == KeyEvent.VK_S) {
+        cj.salvarFase(faseAtual);
+    } else if (key == KeyEvent.VK_L) {
+        ArrayList<Personagem> faseCarregada = cj.carregarFase();
+        if (faseCarregada != null) {
+            faseAtual = faseCarregada;
+            if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero h) {
+                hero = h;
+            }
         }
-        this.atualizaCamera();
-        this.setTitle("-> Cell: " + (hero.getPosicao().getLinha()) + ", "
-                + (hero.getPosicao().getColuna()));
     }
+
+    this.atualizaCamera();
+    this.setTitle("-> Cell: " + hero.getPosicao().getLinha() + ", " + hero.getPosicao().getColuna());
+}
 
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
@@ -278,9 +285,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             hero = novoHero;
             hero.setProntoParaTrocarFase(false);
             this.atualizaCamera();
-            System.out.println("Jogo reiniciado a partir da fase 1.");
+            System.out.println("GAME OVER!!!");
         } else {
-            System.err.println("Erro ao reiniciar a fase 1.");
+            System.err.println("Erro ao reiniciar.");
             System.exit(1);
         }
     }

@@ -10,8 +10,10 @@
 package Modelo;
 
 import Auxiliar.Desenho;
+import java.io.Serializable;
 
-public class Chave extends Personagem {
+
+public class Chave extends Personagem implements Serializable{
 
     public Chave(String sNomeImagePNG) {
         super(sNomeImagePNG);

@@ -2,8 +2,9 @@ package Modelo;
 
 import Auxiliar.Desenho;
 import Auxiliar.LeitorMapa;
+import java.io.Serializable;
 
-public class BichinhoContrarioVertical extends Personagem {
+public class BichinhoContrarioVertical extends Personagem implements Serializable {
     private boolean subindo;
     private int linhaMin;
     private int linhaMax;

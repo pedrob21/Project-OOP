@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class BichinhoVaiVemHorizontal extends Personagem {
+public class BichinhoVaiVemHorizontal extends Personagem implements Serializable {
     private boolean indoEsquerda;
     private int colunaMin;
     private int colunaMax;
