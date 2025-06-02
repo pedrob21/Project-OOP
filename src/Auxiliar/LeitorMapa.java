@@ -64,6 +64,22 @@ public class LeitorMapa {
                             chave.setPosicao(linha, coluna);
                             personagens.add(chave);
                             break;
+                        case 7: // BichinhoVaiVemVerticalContrario
+                            int cima = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
+                            int baixo = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
+
+                            BichinhoContrarioVertical bvvc = new BichinhoContrarioVertical("Robbo.png", cima, baixo);
+                            bvvc.setPosicao(linha, coluna);
+                            personagens.add(bvvc);
+                            break;
+                        case 8: // BichinhoVaiVemHorizontal
+                            int alcanceEsq = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
+                            int alcanceDir = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
+
+                            BichinhoContrarioHorizontal bvhc = new BichinhoContrarioHorizontal("Robbo.png", alcanceEsq, alcanceDir);
+                            bvhc.setPosicao(linha, coluna);
+                            personagens.add(bvhc);
+                            break;
 
                         default:
                             // 0 ou desconhecido → ignora

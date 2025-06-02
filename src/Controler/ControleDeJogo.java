@@ -6,7 +6,7 @@ import Modelo.Moeda;
 import Modelo.Personagem;
 import auxiliar.Posicao;
 import Auxiliar.Desenho;
-
+import Modelo.Chave;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
