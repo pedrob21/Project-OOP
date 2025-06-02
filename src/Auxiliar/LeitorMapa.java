@@ -84,6 +84,13 @@ public class LeitorMapa {
                             Chaser chaser = new Chaser("Chaser.png");
                             chaser.setPosicao(linha, coluna);
                             personagens.add(chaser);
+                            break;
+                        case 10:
+                            int direcao = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1; // padrão direita
+                            Caveira cav = new Caveira("Caveira.png", direcao);
+                            cav.setPosicao(linha, coluna);
+                            personagens.add(cav);
+                            break;
 
                         default:
                             // 0 ou desconhecido → ignora

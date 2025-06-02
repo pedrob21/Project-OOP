@@ -5,20 +5,44 @@ import Controler.Tela;
 import java.awt.Graphics;
 import java.io.Serializable;
 import Auxiliar.LeitorMapa;
+import auxiliar.Posicao;
 
 
-public class Fogo extends Personagem implements Serializable{
-            
+public class Fogo extends Personagem implements Serializable {
+
+    private int direcao; // 1 = direita, 2 = esquerda
+    
     public Fogo(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.bMortal = true;
+        this.bTransponivel = true;
+    }
+    
+
+    public void setDirecao(int direcao) {
+        this.direcao = direcao;
     }
 
     @Override
-    public void autoDesenho() {
-        super.autoDesenho();
-        if(!this.moveRight())
-            Desenho.acessoATelaDoJogo().removePersonagem(this);
+public void autoDesenho() {
+    super.autoDesenho();
+
+    boolean conseguiuMover = false;
+
+    if (direcao == 1) {
+        Posicao novaPos = new Posicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
+        if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPos)) {
+            conseguiuMover = this.moveRight();
+        }
+    } else if (direcao == 2) {
+        Posicao novaPos = new Posicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
+        if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPos)) {
+            conseguiuMover = this.moveLeft();
+        }
     }
-    
+
+    if (!conseguiuMover) {
+        Desenho.acessoATelaDoJogo().removePersonagem(this);
+    }
+}
 }

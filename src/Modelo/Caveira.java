@@ -7,25 +7,42 @@ import Controler.Tela;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Caveira extends Personagem implements Serializable{
+public class Caveira extends Personagem implements Serializable {
     private int iContaIntervalos;
-    
-    public Caveira(String sNomeImagePNG) {
+    private int direcaoDisparo; // 1 = direita, 2 = esquerda
+
+    public Caveira(String sNomeImagePNG, int direcaoDisparo) {
         super(sNomeImagePNG);
         this.bTransponivel = false;
-        bMortal = false;
+        this.bMortal = false;
         this.iContaIntervalos = 0;
+        this.direcaoDisparo = direcaoDisparo;
     }
 
+    @Override
     public void autoDesenho() {
         super.autoDesenho();
 
         this.iContaIntervalos++;
-        if(this.iContaIntervalos == Consts.TIMER){
+        if (this.iContaIntervalos == Consts.TIMER) {
             this.iContaIntervalos = 0;
-            Fogo f = new Fogo("fire.png");
-            f.setPosicao(pPosicao.getLinha(),pPosicao.getColuna()+1);
+
+            // Escolhe imagem de acordo com a direção
+            String imagemFogo = (direcaoDisparo == 2) ? "fireEsq.png" : "fire.png";
+
+            Fogo f = new Fogo(imagemFogo);
+
+            int linha = pPosicao.getLinha();
+            int coluna = pPosicao.getColuna();
+            if (direcaoDisparo == 1) {
+                f.setPosicao(linha, coluna + 1); // Direita
+                f.setDirecao(1);
+            } else if (direcaoDisparo == 2) {
+                f.setPosicao(linha, coluna - 1); // Esquerda
+                f.setDirecao(2);
+            }
+
             Desenho.acessoATelaDoJogo().addPersonagem(f);
         }
-    }    
+    }
 }
