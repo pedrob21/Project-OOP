@@ -28,7 +28,7 @@ public class Caveira extends Personagem implements Serializable {
             this.iContaIntervalos = 0;
 
             // Escolhe imagem de acordo com a direção
-            String imagemFogo = (direcaoDisparo == 2) ? "fireEsq.png" : "fire.png";
+            String imagemFogo = (direcaoDisparo == 2) ? "Cigar.png" : "Cigar.png";
 
             Fogo f = new Fogo(imagemFogo);
 

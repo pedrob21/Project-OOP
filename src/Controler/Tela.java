@@ -42,7 +42,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     private int cameraLinha = 0;
     private int cameraColuna = 0;
 
-    public Tela() {
+    public Tela(String caminhoMapa) {
         Desenho.setCenario(this);
         initComponents();
         this.addMouseListener(this);
@@ -51,7 +51,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                 Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-        faseAtual = LeitorMapa.carregarMapa("src/maps/fase1.txt");
+        faseAtual = LeitorMapa.carregarMapa(caminhoMapa);
 
         if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero) {
             hero = (Hero) faseAtual.get(0);
@@ -104,7 +104,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
                 if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
                     try {
                         Image newImage = Toolkit.getDefaultToolkit().getImage(
-                                new java.io.File(".").getCanonicalPath() + Consts.PATH + "blackTile.png");
+                                new java.io.File(".").getCanonicalPath() + Consts.PATH + "chaoAzulejo.png");
                         g2.drawImage(newImage,
                                 j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
                                 Consts.CELL_SIDE, Consts.CELL_SIDE, null);
@@ -193,7 +193,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         hero.moveRight();
     } else if (key == KeyEvent.VK_S) {
         cj.salvarFase(faseAtual);
-    } else if (key == KeyEvent.VK_L) {
+    } else if (key == KeyEvent.VK_R) {
+        reiniciarFaseAtual();
+    }else if (key == KeyEvent.VK_L) {
         ArrayList<Personagem> faseCarregada = cj.carregarFase();
         if (faseCarregada != null) {
             faseAtual = faseCarregada;
@@ -291,4 +293,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             System.exit(1);
         }
     }
+    
+        public void reiniciarFaseAtual() {
+            String caminho = "src/maps/fase" + faseAtualNumero + ".txt";
+            ArrayList<Personagem> novaFase = Auxiliar.LeitorMapa.carregarMapa(caminho);
+
+            if (!novaFase.isEmpty() && novaFase.get(0) instanceof Hero novoHero) {
+                this.faseAtual = novaFase;
+                this.hero = novoHero;
+                this.hero.setProntoParaTrocarFase(false);
+                this.atualizaCamera();
+                System.out.println("Fase " + faseAtualNumero + " reiniciada!");
+            } else {
+                System.err.println("Erro ao reiniciar a fase.");
+            }
+        }
+
 }

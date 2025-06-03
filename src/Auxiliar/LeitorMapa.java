@@ -31,13 +31,13 @@ public class LeitorMapa {
                             break;
 
                         case 2: // Moeda
-                            Moeda m = new Moeda("Caveira.png");
+                            Moeda m = new Moeda("bitcoin.png");
                             m.setPosicao(linha, coluna);
                             personagens.add(m);
                             break;
 
                         case 3: // Hero
-                            Hero hero = new Hero("Robbo.png");
+                            Hero hero = new Hero("ChicoCoins.png");
                             hero.setPosicao(linha, coluna);
                             personagens.add(0, hero); // sempre na posição 0
                             break;
@@ -46,7 +46,7 @@ public class LeitorMapa {
                             int alcanceE = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
                             int alcanceD = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
 
-                            BichinhoVaiVemHorizontal bvh = new BichinhoVaiVemHorizontal("Robbo.png", alcanceE, alcanceD);
+                            BichinhoVaiVemHorizontal bvh = new BichinhoVaiVemHorizontal("roboPink.png", alcanceE, alcanceD);
                             bvh.setPosicao(linha, coluna);
                             personagens.add(bvh);
                             break;
@@ -55,7 +55,7 @@ public class LeitorMapa {
                             int alcanceC = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
                             int alcanceB = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
 
-                            BichinhoVaiVemVertical bvv = new BichinhoVaiVemVertical("Robbo.png", alcanceC, alcanceB);
+                            BichinhoVaiVemVertical bvv = new BichinhoVaiVemVertical("roboPink.png", alcanceC, alcanceB);
                             bvv.setPosicao(linha, coluna);
                             personagens.add(bvv);
                             break;
@@ -68,7 +68,7 @@ public class LeitorMapa {
                             int cima = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
                             int baixo = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
 
-                            BichinhoContrarioVertical bvvc = new BichinhoContrarioVertical("Robbo.png", cima, baixo);
+                            BichinhoContrarioVertical bvvc = new BichinhoContrarioVertical("roboPink.png", cima, baixo);
                             bvvc.setPosicao(linha, coluna);
                             personagens.add(bvvc);
                             break;
@@ -76,7 +76,7 @@ public class LeitorMapa {
                             int alcanceEsq = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1;
                             int alcanceDir = (partes.length > 2) ? Integer.parseInt(partes[2]) : 1;
 
-                            BichinhoContrarioHorizontal bvhc = new BichinhoContrarioHorizontal("Robbo.png", alcanceEsq, alcanceDir);
+                            BichinhoContrarioHorizontal bvhc = new BichinhoContrarioHorizontal("roboPink.png", alcanceEsq, alcanceDir);
                             bvhc.setPosicao(linha, coluna);
                             personagens.add(bvhc);
                             break;
@@ -87,17 +87,17 @@ public class LeitorMapa {
                             break;
                         case 10:
                             int direcao = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1; // padrão direita
-                            Caveira cav = new Caveira("Caveira.png", direcao);
+                            Caveira cav = new Caveira("caixaCigar.png", direcao);
                             cav.setPosicao(linha, coluna);
                             personagens.add(cav);
                             break;
                         case 11: // Caixa empurrável
-                            CaixaEmpurravel caixa = new CaixaEmpurravel("Caveira.png"); // ou o nome da imagem que você deseja
+                            CaixaEmpurravel caixa = new CaixaEmpurravel("caveira.png"); // ou o nome da imagem que você deseja
                             caixa.setPosicao(linha, coluna);
                             personagens.add(caixa);
                             break;
                         case 12:
-                            ZigueZague zz = new ZigueZague("blue.png");
+                            ZigueZague zz = new ZigueZague("AnaMaria.png");
                             zz.setPosicao(linha, coluna);
                             personagens.add(zz);
 
