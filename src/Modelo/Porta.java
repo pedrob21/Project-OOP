@@ -13,9 +13,9 @@ import Auxiliar.Desenho;
 import java.io.Serializable;
 
 
-public class Chave extends Personagem implements Serializable{
+public class Porta extends Personagem implements Serializable{
 
-    public Chave(String sNomeImagePNG) {
+    public Porta(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.bTransponivel = true; // O herói pode passar por ela
         this.bMortal = false;      // Não causa dano

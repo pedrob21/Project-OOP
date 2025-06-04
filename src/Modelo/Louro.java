@@ -16,14 +16,14 @@ import Controler.ControleDeJogo;
  *
  * @author 2373891
  */
-public class Chaser extends Personagem implements Serializable {
+public class Louro extends Personagem implements Serializable {
 
     private boolean iDirectionV;
     private boolean iDirectionH;
     private int tickCounter;
     private final int TICKS_POR_MOVIMENTO = 3; // Deixa o Chaser mais lento
 
-    public Chaser(String sNomeImagePNG) {
+    public Louro(String sNomeImagePNG) {
         super(sNomeImagePNG);
         iDirectionV = true;
         iDirectionH = true;

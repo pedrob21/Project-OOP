@@ -3,12 +3,12 @@ package Modelo;
 import Auxiliar.Desenho;
 import java.util.Random;
 import auxiliar.Posicao;
-import Controler.ControleDeJogo;
 
-public class ZigueZague extends Personagem {
+public class AnaMaria extends Personagem {
 
-    public ZigueZague(String sNomeImagePNG) {
+    public AnaMaria(String sNomeImagePNG) {
         super(sNomeImagePNG);
+        this.bMortal = true; // Agora o personagem causa dano ao herói
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ZigueZague extends Personagem {
 
         Posicao novaPos = new Posicao(novaLinha, novaColuna);
 
-         if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPos)) {
+        if (Desenho.acessoATelaDoJogo().ehPosicaoValida(novaPos)) {
             this.setPosicao(novaLinha, novaColuna);
         }
 

@@ -1,19 +1,19 @@
 package Controler;
 
 import Modelo.Personagem;
-import Modelo.Caveira;
-import Modelo.Hero;
-import Modelo.Chaser;
+import Modelo.Cigar;
+import Modelo.Chico;
+import Modelo.Louro;
 import Modelo.BichinhoVaiVemHorizontal;
 import Modelo.Parede;
 import Modelo.Moeda;
+import Modelo.Fase;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.LeitorMapa;
 import Modelo.BichinhoVaiVemVertical;
-import Modelo.ZigueZague;
+import Modelo.AnaMaria;
 import auxiliar.Posicao;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -21,23 +21,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-import javax.swing.JButton;
+import javax.swing.JFrame;
 
+public class Tela extends JFrame implements MouseListener, KeyListener {
 
-public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
-
-    private Hero hero;
+    private Chico hero;
+    private Fase fase;
     private ArrayList<Personagem> faseAtual;
     private ControleDeJogo cj = new ControleDeJogo();
-    private int faseAtualNumero = 1;
     private Graphics g2;
     private int cameraLinha = 0;
     private int cameraColuna = 0;
@@ -51,16 +48,26 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
                 Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-        faseAtual = LeitorMapa.carregarMapa(caminhoMapa);
+        this.fase = new Fase(extrairNumeroFase(caminhoMapa), caminhoMapa);
+        this.faseAtual = fase.getPersonagens();
 
-        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero) {
-            hero = (Hero) faseAtual.get(0);
+        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Chico) {
+            hero = (Chico) faseAtual.get(0);
         } else {
             System.err.println("Erro: mapa não possui um herói na posição 0!");
             System.exit(1);
         }
 
         this.atualizaCamera();
+    }
+
+    private int extrairNumeroFase(String caminho) {
+        try {
+            String numero = caminho.replaceAll("\\D+", "");
+            return Integer.parseInt(numero);
+        } catch (Exception e) {
+            return 1;
+        }
     }
 
     public ArrayList<Personagem> getFaseAtual() {
@@ -118,7 +125,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         if (!this.faseAtual.isEmpty()) {
             this.cj.desenhaTudo(faseAtual);
 
-            if (faseAtual.get(0) instanceof Hero hero) {
+            if (faseAtual.get(0) instanceof Chico hero) {
                 int y = Consts.RES * Consts.CELL_SIDE - 10;
                 g2.setColor(java.awt.Color.WHITE);
                 g2.fillRect(0, y - 20, getWidth(), 30);
@@ -179,35 +186,43 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     public void keyPressed(KeyEvent e) {
-    int key = e.getKeyCode();
+        int key = e.getKeyCode();
 
-    if (key == KeyEvent.VK_C) {
-        this.faseAtual.clear();
-    } else if (key == KeyEvent.VK_UP) {
-        hero.moveUp();
-    } else if (key == KeyEvent.VK_DOWN) {
-        hero.moveDown();
-    } else if (key == KeyEvent.VK_LEFT) {
-        hero.moveLeft();
-    } else if (key == KeyEvent.VK_RIGHT) {
-        hero.moveRight();
-    } else if (key == KeyEvent.VK_S) {
-        cj.salvarFase(faseAtual);
-    } else if (key == KeyEvent.VK_R) {
-        reiniciarFaseAtual();
-    }else if (key == KeyEvent.VK_L) {
-        ArrayList<Personagem> faseCarregada = cj.carregarFase();
-        if (faseCarregada != null) {
-            faseAtual = faseCarregada;
-            if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero h) {
+        if (key == KeyEvent.VK_C) {
+            this.faseAtual.clear();
+        } else if (key == KeyEvent.VK_UP) {
+            hero.moveUp();
+        } else if (key == KeyEvent.VK_DOWN) {
+            hero.moveDown();
+        } else if (key == KeyEvent.VK_LEFT) {
+            hero.moveLeft();
+        } else if (key == KeyEvent.VK_RIGHT) {
+            hero.moveRight();
+        } else if (key == KeyEvent.VK_S) {
+            cj.salvarFase(fase.getPersonagens());
+        } else if (key == KeyEvent.VK_R) {
+            fase.recarregar();
+            faseAtual = fase.getPersonagens();
+            if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Chico h) {
                 hero = h;
             }
+            this.atualizaCamera();
+            System.out.println("Fase reiniciada!");
+        } else if (key == KeyEvent.VK_L) {
+            ArrayList<Personagem> faseCarregada = cj.carregarFase();
+            if (faseCarregada != null) {
+                faseAtual = faseCarregada;
+                if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Chico h) {
+                    hero = h;
+                }
+                this.atualizaCamera();
+                System.out.println("Fase carregada do save!");
+            }
         }
-    }
 
-    this.atualizaCamera();
-    this.setTitle("-> Cell: " + hero.getPosicao().getLinha() + ", " + hero.getPosicao().getColuna());
-}
+        this.atualizaCamera();
+        this.setTitle("-> Cell: " + hero.getPosicao().getLinha() + ", " + hero.getPosicao().getColuna());
+    }
 
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
@@ -252,19 +267,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     public void keyReleased(KeyEvent e) {}
 
     private void carregarProximaFase() {
-        faseAtualNumero++;
-        String caminho = "src/maps/fase" + faseAtualNumero + ".txt";
+        int proximoNumero = fase.getNumero() + 1;
+        String caminho = "src/maps/fase" + proximoNumero + ".txt";
+        Fase novaFase = new Fase(proximoNumero, caminho);
+        ArrayList<Personagem> novaLista = novaFase.getPersonagens();
 
-        ArrayList<Personagem> novaFase = LeitorMapa.carregarMapa(caminho);
-
-        if (!novaFase.isEmpty() && novaFase.get(0) instanceof Hero novoHero) {
-            faseAtual = novaFase;
-            hero = novoHero;
-            hero.setProntoParaTrocarFase(false);
+        if (!novaLista.isEmpty() && novaLista.get(0) instanceof Chico novoHero) {
+            this.fase = novaFase;
+            this.faseAtual = novaLista;
+            this.hero = novoHero;
+            this.hero.setProntoParaTrocarFase(false);
             this.atualizaCamera();
-            System.out.println("Fase " + faseAtualNumero + " carregada.");
+            System.out.println("Fase " + proximoNumero + " carregada.");
         } else {
-            System.out.println("Fim do jogo ou fase inválida.");
+            System.out.println("Fim do jogo");
             System.exit(0);
         }
     }
@@ -277,13 +293,13 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
         return null;
     }
-    
+
     public void resetarParaFase1() {
         ControleDeJogo.resetarVidas();
-        faseAtualNumero = 1;
-        faseAtual = LeitorMapa.carregarMapa("src/maps/fase1.txt");
+        this.fase = new Fase(1, "src/maps/fase1.txt");
+        this.faseAtual = fase.getPersonagens();
 
-        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Hero novoHero) {
+        if (!faseAtual.isEmpty() && faseAtual.get(0) instanceof Chico novoHero) {
             hero = novoHero;
             hero.setProntoParaTrocarFase(false);
             this.atualizaCamera();
@@ -293,20 +309,4 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
             System.exit(1);
         }
     }
-    
-        public void reiniciarFaseAtual() {
-            String caminho = "src/maps/fase" + faseAtualNumero + ".txt";
-            ArrayList<Personagem> novaFase = Auxiliar.LeitorMapa.carregarMapa(caminho);
-
-            if (!novaFase.isEmpty() && novaFase.get(0) instanceof Hero novoHero) {
-                this.faseAtual = novaFase;
-                this.hero = novoHero;
-                this.hero.setProntoParaTrocarFase(false);
-                this.atualizaCamera();
-                System.out.println("Fase " + faseAtualNumero + " reiniciada!");
-            } else {
-                System.err.println("Erro ao reiniciar a fase.");
-            }
-        }
-
 }

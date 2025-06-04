@@ -6,14 +6,14 @@ import auxiliar.Posicao;
 
 import java.io.Serializable;
 
-public class Hero extends Personagem implements Serializable {
+public class Chico extends Personagem implements Serializable {
     private int vidas;
     private boolean podeLevarDano = true;
     private int pontuacao;
     private boolean prontoParaTrocarFase = false;
     private boolean possuiChave = false;
 
-    public Hero(String sNomeImagePNG) {
+    public Chico(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.bTransponivel = false;
         this.bMortal = false;

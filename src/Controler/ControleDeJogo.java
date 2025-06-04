@@ -1,12 +1,12 @@
 package Controler;
 
-import Modelo.Chaser;
-import Modelo.Hero;
+import Modelo.Louro;
+import Modelo.Chico;
 import Modelo.Moeda;
 import Modelo.Personagem;
 import auxiliar.Posicao;
 import Auxiliar.Desenho;
-import Modelo.Chave;
+import Modelo.Porta;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-
 public class ControleDeJogo {
 
     private static int vidasPersistentes = -1; // -1 indica que ainda não foi inicializado
+    private static int pontuacaoPersistente = 0;
 
     public void salvarFase(ArrayList<Personagem> faseAtual) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("fase_salva.dat"))) {
@@ -49,8 +49,8 @@ public class ControleDeJogo {
             e.get(i).autoDesenho();
         }
 
-        if (!e.isEmpty() && e.get(0) instanceof Hero) {
-            Hero hero = (Hero) e.get(0);
+        if (!e.isEmpty() && e.get(0) instanceof Chico) {
+            Chico hero = (Chico) e.get(0);
             Graphics g = Desenho.acessoATelaDoJogo().getGraphics();
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 16));
@@ -59,34 +59,34 @@ public class ControleDeJogo {
     }
 
     public void processaTudo(ArrayList<Personagem> umaFase) {
-        if (umaFase == null || umaFase.isEmpty() || !(umaFase.get(0) instanceof Hero)) {
+        if (umaFase == null || umaFase.isEmpty() || !(umaFase.get(0) instanceof Chico)) {
             return;
         }
 
-        Hero hero = (Hero) umaFase.get(0);
+        Chico hero = (Chico) umaFase.get(0);
 
-        // Inicializa as vidas persistentes, se ainda não estiverem definidas
         if (vidasPersistentes == -1) {
             vidasPersistentes = hero.getVidas();
+            pontuacaoPersistente = hero.getPontuacao();
         } else {
-            hero.setVidas(vidasPersistentes); // Garante consistência das vidas ao trocar de fase
+            hero.setVidas(vidasPersistentes);
+            hero.setPontuacao(pontuacaoPersistente);
         }
 
         for (int i = 1; i < umaFase.size(); i++) {
             Personagem p = umaFase.get(i);
 
-            // Colisão com o herói
             if (hero.getPosicao().igual(p.getPosicao())) {
                 if (p instanceof Moeda) {
                     hero.addPontuacao();
                     umaFase.remove(i--);
+                    pontuacaoPersistente = hero.getPontuacao();
                     continue;
                 }
 
-                if (p instanceof Chave) {
+                if (p instanceof Porta) {
                     hero.coletarChave();
                     umaFase.remove(i--);
-                    System.out.println("Herói coletou a chave!");
                     hero.setProntoParaTrocarFase(true);
                     continue;
                 }
@@ -94,13 +94,13 @@ public class ControleDeJogo {
                 if (p.isbMortal()) {
                     if (hero.podeLevarDano()) {
                         hero.perderVida();
-                        vidasPersistentes = hero.getVidas(); // Atualiza as vidas globais
+                        vidasPersistentes = hero.getVidas();
                         System.out.println("Herói perdeu uma vida! Vidas: " + hero.getVidas()
                                 + " | Pontuação: " + hero.getPontuacao());
 
                         if (!hero.estaVivo()) {
                             System.out.println("Herói morreu. Reiniciando o jogo...");
-                            vidasPersistentes = -1; // Reinicia as vidas globais
+                            vidasPersistentes = -1;
                             Tela tela = Desenho.acessoATelaDoJogo();
                             tela.resetarParaFase1();
                             return;
@@ -113,11 +113,10 @@ public class ControleDeJogo {
             }
         }
 
-        // Movimento dos Chasers
         for (int i = 1; i < umaFase.size(); i++) {
             Personagem p = umaFase.get(i);
-            if (p instanceof Chaser) {
-                ((Chaser) p).mover(umaFase, this, hero.getPosicao());
+            if (p instanceof Louro) {
+                ((Louro) p).mover(umaFase, this, hero.getPosicao());
             }
         }
     }
@@ -136,5 +135,13 @@ public class ControleDeJogo {
 
     public static void resetarVidas() {
         vidasPersistentes = -1;
+    }
+
+    public static void resetarPontuacao() {
+        pontuacaoPersistente = 0;
+    }
+
+    public static int getPontuacaoTotal() {
+        return pontuacaoPersistente;
     }
 }

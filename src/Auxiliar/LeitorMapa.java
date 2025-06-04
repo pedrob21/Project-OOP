@@ -1,6 +1,6 @@
 package Auxiliar;
 
-import Modelo.Chave;
+import Modelo.Porta;
 import Modelo.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class LeitorMapa {
                             break;
 
                         case 3: // Hero
-                            Hero hero = new Hero("ChicoCoins.png");
+                            Chico hero = new Chico("ChicoCoins.png");
                             hero.setPosicao(linha, coluna);
                             personagens.add(0, hero); // sempre na posição 0
                             break;
@@ -60,7 +60,7 @@ public class LeitorMapa {
                             personagens.add(bvv);
                             break;
                         case 6:
-                            Chave chave = new Chave("fire.png");
+                            Porta chave = new Porta("fire.png");
                             chave.setPosicao(linha, coluna);
                             personagens.add(chave);
                             break;
@@ -81,13 +81,13 @@ public class LeitorMapa {
                             personagens.add(bvhc);
                             break;
                         case 9:
-                            Chaser chaser = new Chaser("Chaser.png");
+                            Louro chaser = new Louro("Chaser.png");
                             chaser.setPosicao(linha, coluna);
                             personagens.add(chaser);
                             break;
                         case 10:
                             int direcao = (partes.length > 1) ? Integer.parseInt(partes[1]) : 1; // padrão direita
-                            Caveira cav = new Caveira("caixaCigar.png", direcao);
+                            Cigar cav = new Cigar("caixaCigar.png", direcao);
                             cav.setPosicao(linha, coluna);
                             personagens.add(cav);
                             break;
@@ -97,7 +97,7 @@ public class LeitorMapa {
                             personagens.add(caixa);
                             break;
                         case 12:
-                            ZigueZague zz = new ZigueZague("AnaMaria.png");
+                            AnaMaria zz = new AnaMaria("AnaMaria.png");
                             zz.setPosicao(linha, coluna);
                             personagens.add(zz);
 
@@ -111,7 +111,12 @@ public class LeitorMapa {
             }
 
         } catch (IOException e) {
-            System.out.println("Erro ao ler o mapa: " + e.getMessage());
+              // Silencia o erro quando o arquivo da próxima fase não existe
+            if (e instanceof FileNotFoundException) {
+                // Nada a fazer, fim do jogo é esperado
+            } else {
+                System.out.println("Erro ao ler o mapa: " + e.getMessage());
+            }
         }
 
         return personagens;
@@ -132,7 +137,7 @@ public class LeitorMapa {
             int coluna = p.getPosicao().getColuna();
             char simbolo = '?';
 
-            if (p instanceof Hero) {
+            if (p instanceof Chico) {
                 simbolo = 'H';
             } else if (p instanceof Moeda) {
                 simbolo = 'M';
@@ -142,11 +147,11 @@ public class LeitorMapa {
                 simbolo = '>';
             } else if (p instanceof BichinhoVaiVemVertical) {
                 simbolo = 'V';
-            } else if (p instanceof Chaser) {
+            } else if (p instanceof Louro) {
                 simbolo = 'C';
-            } else if (p instanceof Caveira) {
+            } else if (p instanceof Cigar) {
                 simbolo = 'K';
-            } else if (p instanceof ZigueZague) {
+            } else if (p instanceof AnaMaria) {
                 simbolo = 'Z';
             }
 

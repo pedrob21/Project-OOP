@@ -7,11 +7,11 @@ import Controler.Tela;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Caveira extends Personagem implements Serializable {
+public class Cigar extends Personagem implements Serializable {
     private int iContaIntervalos;
     private int direcaoDisparo; // 1 = direita, 2 = esquerda
 
-    public Caveira(String sNomeImagePNG, int direcaoDisparo) {
+    public Cigar(String sNomeImagePNG, int direcaoDisparo) {
         super(sNomeImagePNG);
         this.bTransponivel = false;
         this.bMortal = false;
@@ -30,7 +30,7 @@ public class Caveira extends Personagem implements Serializable {
             // Escolhe imagem de acordo com a direção
             String imagemFogo = (direcaoDisparo == 2) ? "Cigar.png" : "Cigar.png";
 
-            Fogo f = new Fogo(imagemFogo);
+            TiroCigar f = new TiroCigar(imagemFogo);
 
             int linha = pPosicao.getLinha();
             int coluna = pPosicao.getColuna();

@@ -8,11 +8,11 @@ import Auxiliar.LeitorMapa;
 import auxiliar.Posicao;
 
 
-public class Fogo extends Personagem implements Serializable {
+public class TiroCigar extends Personagem implements Serializable {
 
     private int direcao; // 1 = direita, 2 = esquerda
     
-    public Fogo(String sNomeImagePNG) {
+    public TiroCigar(String sNomeImagePNG) {
         super(sNomeImagePNG);
         this.bMortal = true;
         this.bTransponivel = true;
