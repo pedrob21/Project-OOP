@@ -1,22 +1,23 @@
 package Controler;
 
 import Modelo.Personagem;
-import Modelo.Cigar;
 import Modelo.Chico;
-import Modelo.Louro;
-import Modelo.BichinhoVaiVemHorizontal;
-import Modelo.Parede;
-import Modelo.Moeda;
 import Modelo.Fase;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.LeitorMapa;
-import Modelo.BichinhoVaiVemVertical;
-import Modelo.AnaMaria;
+import Modelo.PersonagemZip;
 import auxiliar.Posicao;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -28,6 +29,16 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import java.util.zip.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import javax.imageio.ImageIO;
+
+
 
 public class Tela extends JFrame implements MouseListener, KeyListener {
 
@@ -59,6 +70,38 @@ public class Tela extends JFrame implements MouseListener, KeyListener {
         }
 
         this.atualizaCamera();
+        
+        new DropTarget(this, new DropTargetAdapter() {
+    @Override
+    public void drop(DropTargetDropEvent fileDrop) {
+        try {
+            Point mousePosition = fileDrop.getLocation();
+            fileDrop.acceptDrop(DnDConstants.ACTION_COPY);
+            Transferable transferable = fileDrop.getTransferable();
+
+            if (transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                @SuppressWarnings("unchecked")
+                List<File> files = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+
+                for (File file : files) {
+                    if (!file.getName().endsWith(".zip")) continue;
+
+                    int colunaMouse = (int) mousePosition.getX() / Consts.CELL_SIDE;
+                    int linhaMouse = (int) mousePosition.getY() / Consts.CELL_SIDE;
+                    Posicao p = new Posicao(linhaMouse, colunaMouse);
+
+                    Tela.this.loadCharacter(file, p); // Você vai implementar esse método
+                }
+            }
+
+            fileDrop.dropComplete(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileDrop.dropComplete(false);
+        }
+    }
+});
+
     }
 
     private int extrairNumeroFase(String caminho) {
@@ -309,4 +352,51 @@ public class Tela extends JFrame implements MouseListener, KeyListener {
             System.exit(1);
         }
     }
+    
+    public void loadCharacter(File zipFile, Posicao posicao) {
+    try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile))) {
+        ZipEntry entry;
+        BufferedImage imagem = null;
+        String nome = "Desconhecido";
+        boolean mortal = false;
+
+        while ((entry = zis.getNextEntry()) != null) {
+            if (entry.getName().toLowerCase().endsWith(".json")) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(zis));
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    linha = linha.trim();
+
+                    if (linha.contains("\"nome\"")) {
+                        nome = linha.split(":")[1].replace("\"", "").replace(",", "").trim();
+                    } else if (linha.contains("\"mortal\"")) {
+                        String valor = linha.split(":")[1].replace(",", "").trim();
+                        mortal = valor.equals("true");
+                    }
+                }
+
+            } else if (entry.getName().toLowerCase().endsWith(".png")) {
+                imagem = ImageIO.read(zis);
+            }
+            zis.closeEntry();
+        }
+
+        if (imagem != null) {
+            PersonagemZip novo = new PersonagemZip(imagem, nome, mortal);
+            novo.setPosicao(posicao.getLinha(), posicao.getColuna());
+            this.addPersonagem(novo);
+
+            System.out.println("Personagem '" + nome + "' adicionado na posição " +
+                posicao.getLinha() + ", " + posicao.getColuna());
+        } else {
+            System.err.println("Erro: Imagem não encontrada no zip.");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+
 }

@@ -28,7 +28,7 @@ public class Cigar extends Personagem implements Serializable {
             this.iContaIntervalos = 0;
 
             // Escolhe imagem de acordo com a direção
-            String imagemFogo = (direcaoDisparo == 2) ? "Cigar.png" : "Cigar.png";
+            String imagemFogo = (direcaoDisparo == 2) ? "CigarEsq.png" : "Cigar.png";
 
             TiroCigar f = new TiroCigar(imagemFogo);
 
