@@ -2,9 +2,6 @@ package Modelo;
 
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
-import Auxiliar.LeitorMapa;
-import Controler.Tela;
-import java.awt.Graphics;
 import java.io.Serializable;
 
 public class Cigar extends Personagem implements Serializable {

@@ -1,7 +1,5 @@
 package Modelo;
 
-import Auxiliar.Desenho;
-import Auxiliar.LeitorMapa;
 import java.io.Serializable;
 
 public class BichinhoContrarioVertical extends Personagem implements Serializable {

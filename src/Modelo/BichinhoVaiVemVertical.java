@@ -1,9 +1,6 @@
 
 package Modelo;
 
-import Auxiliar.Desenho;
-import java.util.Random;
-import Auxiliar.LeitorMapa;
 import java.io.Serializable;
 
 

@@ -4,12 +4,9 @@
  */
 package Modelo;
 
-import Auxiliar.Consts;
-import Auxiliar.Desenho;
 import auxiliar.Posicao;
 import java.io.Serializable;
 import java.util.ArrayList;
-import Auxiliar.Desenho;
 import Controler.ControleDeJogo;
 
 /**

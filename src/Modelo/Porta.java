@@ -9,7 +9,6 @@
  */
 package Modelo;
 
-import Auxiliar.Desenho;
 import java.io.Serializable;
 
 

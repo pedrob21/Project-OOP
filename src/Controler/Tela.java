@@ -12,7 +12,6 @@ import Modelo.BichinhoContrarioVertical;
 import Modelo.BichinhoVaiVemHorizontal;
 import Modelo.BichinhoVaiVemVertical;
 import Modelo.Louro;
-import Modelo.Parede;
 import auxiliar.Posicao;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -415,12 +414,9 @@ public class Tela extends JFrame implements MouseListener, KeyListener {
         case "BichinhoVaiVemVertical" -> new BichinhoVaiVemVertical(imagem, 3, 3);
         case "BichinhoContrarioHorizontal" -> new BichinhoContrarioHorizontal(imagem, 3, 3);
         case "BichinhoContrarioVertical" -> new BichinhoContrarioVertical(imagem, 3, 3);
-        case "Parede" -> new Parede(imagem);
 
 
-
-        // Adicione mais aqui conforme sua necessidade
-        default -> null; // ou lançar exceção se quiser
+        default -> null; 
     };
 }
 
