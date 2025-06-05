@@ -6,7 +6,13 @@ import Modelo.Fase;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.LeitorMapa;
-import Modelo.PersonagemZip;
+import Modelo.AnaMaria;
+import Modelo.BichinhoContrarioHorizontal;
+import Modelo.BichinhoContrarioVertical;
+import Modelo.BichinhoVaiVemHorizontal;
+import Modelo.BichinhoVaiVemVertical;
+import Modelo.Louro;
+import Modelo.Parede;
 import auxiliar.Posicao;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -357,8 +363,8 @@ public class Tela extends JFrame implements MouseListener, KeyListener {
     try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile))) {
         ZipEntry entry;
         BufferedImage imagem = null;
-        String nome = "Desconhecido";
-        boolean mortal = false;
+        String classe = null;
+        String nomeImagem = null;
 
         while ((entry = zis.getNextEntry()) != null) {
             if (entry.getName().toLowerCase().endsWith(".json")) {
@@ -366,36 +372,58 @@ public class Tela extends JFrame implements MouseListener, KeyListener {
                 String linha;
                 while ((linha = reader.readLine()) != null) {
                     linha = linha.trim();
-
-                    if (linha.contains("\"nome\"")) {
-                        nome = linha.split(":")[1].replace("\"", "").replace(",", "").trim();
-                    } else if (linha.contains("\"mortal\"")) {
-                        String valor = linha.split(":")[1].replace(",", "").trim();
-                        mortal = valor.equals("true");
+                    if (linha.contains("\"classe\"")) {
+                        classe = linha.split(":")[1].replace("\"", "").replace(",", "").trim();
+                    } else if (linha.contains("\"imagem\"")) {
+                        nomeImagem = linha.split(":")[1].replace("\"", "").replace(",", "").trim();
                     }
                 }
-
             } else if (entry.getName().toLowerCase().endsWith(".png")) {
                 imagem = ImageIO.read(zis);
+                // Salva a imagem fisicamente no projeto (se necessário)
+                File out = new File("." + Consts.PATH + entry.getName());
+                ImageIO.write(imagem, "png", out);
             }
             zis.closeEntry();
         }
 
-        if (imagem != null) {
-            PersonagemZip novo = new PersonagemZip(imagem, nome, mortal);
-            novo.setPosicao(posicao.getLinha(), posicao.getColuna());
-            this.addPersonagem(novo);
-
-            System.out.println("Personagem '" + nome + "' adicionado na posição " +
-                posicao.getLinha() + ", " + posicao.getColuna());
+        if (classe != null && nomeImagem != null) {
+            Personagem p = criarPersonagemComportamental(classe, nomeImagem);
+            if (p != null) {
+                p.setPosicao(posicao.getLinha(), posicao.getColuna());
+                this.addPersonagem(p);
+                System.out.println("Personagem da classe '" + classe + "' adicionado na posição " +
+                    posicao.getLinha() + ", " + posicao.getColuna());
+            } else {
+                System.err.println("Classe não reconhecida: " + classe);
+            }
         } else {
-            System.err.println("Erro: Imagem não encontrada no zip.");
+            System.err.println("Classe ou imagem não especificada no JSON.");
         }
 
     } catch (Exception e) {
         e.printStackTrace();
     }
 }
+
+    public Personagem criarPersonagemComportamental(String classe, String imagem) {
+    return switch (classe) {
+        case "AnaMaria" -> new AnaMaria(imagem);
+        case "Chico" -> new Chico(imagem);
+        case "Louro" -> new Louro(imagem);
+        case "BichinhoVaiVemHorizontal" -> new BichinhoVaiVemHorizontal(imagem, 3, 3);
+        case "BichinhoVaiVemVertical" -> new BichinhoVaiVemVertical(imagem, 3, 3);
+        case "BichinhoContrarioHorizontal" -> new BichinhoContrarioHorizontal(imagem, 3, 3);
+        case "BichinhoContrarioVertical" -> new BichinhoContrarioVertical(imagem, 3, 3);
+        case "Parede" -> new Parede(imagem);
+
+
+
+        // Adicione mais aqui conforme sua necessidade
+        default -> null; // ou lançar exceção se quiser
+    };
+}
+
 
 
 

@@ -6,8 +6,14 @@
         <group>
             <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Controler/ControleDeJogo.java</file>
             <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Controler/Tela.java</file>
-            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Modelo/PersonagemZip.java</file>
             <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Modelo/Cigar.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Auxiliar/Consts.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Auxiliar/Desenho.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Auxiliar/LeitorMapa.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Auxiliar/Posicao.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Modelo/Personagem.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Modelo/PersonagemZip.java</file>
+            <file>file:/C:/Users/pbern/Desktop/oop/Project-OOP/src/Modelo/AnaMaria.java</file>
         </group>
     </open-files>
 </project-private>
